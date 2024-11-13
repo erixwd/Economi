@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Contabile</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .table-container { display: flex; justify-content: center; margin-top: 20px; }
+        .table { display: table; width: 80%; border-spacing: 0; }
+        .table-row { display: table-row; }
+        .table-cell { display: table-cell; padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        .table-cell input { border: none; outline: none; width: 100%; padding: 5px; background-color: transparent; }
+        .table-cell input:focus { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h2>Registro Contabile</h2>
+    <div class="table-container">
+        <div class="table" id="registro">
+            <!-- Riga Intestazione -->
+            <div class="table-row">
+                <div class="table-cell">Data</div>
+                <div class="table-cell">Descrizione</div>
+                <div class="table-cell">Importo</div>
+            </div>
+        </div>
+    </div>
+    <button onclick="aggiungiRiga()">Aggiungi Riga</button>
+    <button onclick="scaricaJSON()">Scarica JSON</button>
+    <input type="file" id="caricaFile" onchange="caricaJSON(this)" />
+    
+    <script src="app.js"></script>
+</body>
+</html>

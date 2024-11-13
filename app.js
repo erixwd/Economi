@@ -1,89 +1,63 @@
-let registroDati = [];  // Questo array conterrà il nostro registro
+// Array per contenere i dati del registro
+let registro = [];
 
-// Funzione per aggiungere una nuova riga al registro
-function aggiungiRiga() {
-    const registro = document.getElementById("registro");
-    const nuovaRiga = document.createElement("div");
-    nuovaRiga.classList.add("table-row");
+// Funzione per aggiungere una riga alla tabella
+function aggiungiRiga(data = "", descrizione = "", entrate = "", uscite = "") {
+    const registroBody = document.getElementById("registroBody");
+    const newRow = document.createElement("tr");
 
-    const dataCell = creaCellaInput("data");
-    const descrizioneCell = creaCellaInput("descrizione");
-    const importoCell = creaCellaInput("importo");
+    newRow.innerHTML = `
+        <td><input type="date" class="form-control" value="${data}"></td>
+        <td><input type="text" class="form-control" value="${descrizione}"></td>
+        <td><input type="number" class="form-control" value="${entrate}"></td>
+        <td><input type="number" class="form-control" value="${uscite}"></td>
+    `;
 
-    nuovaRiga.appendChild(dataCell);
-    nuovaRiga.appendChild(descrizioneCell);
-    nuovaRiga.appendChild(importoCell);
-    registro.appendChild(nuovaRiga);
-
-    registroDati.push({ data: "", descrizione: "", importo: "" });
-}
-
-// Funzione per creare una cella con input
-function creaCellaInput(campo) {
-    const cella = document.createElement("div");
-    cella.classList.add("table-cell");
-    
-    const input = document.createElement("input");
-    input.type = "text";
-    input.addEventListener("input", function() {
-        const rigaIndex = Array.from(cella.parentNode.parentNode.children).indexOf(cella.parentNode) - 1;
-        registroDati[rigaIndex][campo] = input.value;
-    });
-    cella.appendChild(input);
-    return cella;
+    registroBody.appendChild(newRow);
 }
 
 // Funzione per scaricare il registro come file JSON
 function scaricaJSON() {
-    const blob = new Blob([JSON.stringify(registroDati, null, 2)], { type: "application/json" });
+    // Costruisci l'array con i dati della tabella
+    registro = Array.from(document.querySelectorAll("#registroBody tr")).map(row => ({
+        data: row.cells[0].querySelector("input").value,
+        descrizione: row.cells[1].querySelector("input").value,
+        entrate: row.cells[2].querySelector("input").value,
+        uscite: row.cells[3].querySelector("input").value,
+    }));
+
+    // Converti l'array in JSON e scarica il file
+    const blob = new Blob([JSON.stringify(registro, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "registro_contabile.json";
+    a.download = "registro-contabile.json";
     a.click();
     URL.revokeObjectURL(url);
 }
 
-// Funzione per caricare il JSON e popolare la tabella
-function caricaJSON(input) {
-    const file = input.files[0];
+// Funzione per caricare il registro da un file JSON
+function caricaJSON() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        registro = JSON.parse(e.target.result);
+        mostraRegistro();
+    };
+
     if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            registroDati = JSON.parse(e.target.result);
-            popolaTabella();
-        };
         reader.readAsText(file);
     }
 }
 
-// Funzione per popolare la tabella con i dati caricati
-function popolaTabella() {
-    const registro = document.getElementById("registro");
-    registro.innerHTML = `
-        <div class="table-row">
-            <div class="table-cell">Data</div>
-            <div class="table-cell">Descrizione</div>
-            <div class="table-cell">Importo</div>
-        </div>
-    `;
-
-    registroDati.forEach(transazione => {
-        const riga = document.createElement("div");
-        riga.classList.add("table-row");
-
-        const dataCell = creaCellaInput("data");
-        dataCell.firstChild.value = transazione.data;
-
-        const descrizioneCell = creaCellaInput("descrizione");
-        descrizioneCell.firstChild.value = transazione.descrizione;
-
-        const importoCell = creaCellaInput("importo");
-        importoCell.firstChild.value = transazione.importo;
-
-        riga.appendChild(dataCell);
-        riga.appendChild(descrizioneCell);
-        riga.appendChild(importoCell);
-        registro.appendChild(riga);
-    });
+// Funzione per mostrare i dati del registro nella tabella
+function mostraRegistro() {
+    const registroBody = document.getElementById("registroBody");
+    registroBody.innerHTML = "";
+    registro.forEach(item => aggiungiRiga(item.data, item.descrizione, item.entrate, item.uscite));
 }
+
+// Aggiungi una prima riga di esempio
+aggiungiRiga();

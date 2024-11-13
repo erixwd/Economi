@@ -1,0 +1,35 @@
+/* To turn arrows off */
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+}
+
+/* Formattazione caselle */
+input[type="number"],
+input[type="text"],
+input[type="date"] {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 1rem;
+    padding: 0;
+    text-align: right;
+    color: #333;
+    width: 100%;
+}
+
+input[type="text"] {
+    text-align: center;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="date"]:focus {
+    outline: none;
+
+}
