@@ -1,7 +1,7 @@
 # Economi V0.2
 Home-made html accounting app
 
-# Visit website: https://erixwd.github.io/Economi/
+Visit website: https://erixwd.github.io/Economi/
 
 
 # Log book:
