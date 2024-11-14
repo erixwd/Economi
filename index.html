@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Contabile</title>
 
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Importo Boolean -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 
+<!-- Tema Chiaro -->
 <body class="bg-light">
 
 <div class="container my-4">
     <h2 class="text-center mb-4">Registro Contabile</h2>
     <hr>
 
-    <!-- Registrry Div -->
+    <!-- Div Registro -->
     <div class="table-responsive d-flex justify-content-center">
         <table class="table-sm" id="registroTable">
             <thead class="table text-center">
@@ -28,7 +30,7 @@
                 </tr>
             </thead>
             <tbody id="registroBody">
-                <!-- Lines Div -->
+                <!-- Div Linee -->
             </tbody>
         </table>
     </div>
@@ -44,8 +46,20 @@
     </div>
 </div>
 
+<!-- Importi Script -->
+<script src="main.js"></script>
+<script src="tools/format.js"></script>
+<script src="tools/download.js"></script>
+<script src="tools/upload.js"></script>
+
+<!-- Importo Boolean -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="app.js"></script>
+
+<!-- Applica format iniziale | Startup point -->
+<script>
+    window.applicaFormattazione();
+    window.applicaFormattazioneData();
+</script>
 
 </body>
 </html>
