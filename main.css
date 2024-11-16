@@ -1,5 +1,4 @@
-/* Disattiva le frecce */
-
+/* Rimuovi frecce numeri */
 input[type="number"]::-webkit-inner-spin-button, 
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -10,13 +9,11 @@ input[type="number"] {
     -moz-appearance: textfield; /* Per Firefox */
 }
 
-/* Formattazione caselle */
-
+/* Formattazione caselle*/
 input[type="number"],
-input[type="text"],
-input[type="date"] {
-    border: none;
+input[type="text"]{
     outline: none;
+    border: none;
     background-color: transparent;
     font-size: 1rem;
     padding: 0;
@@ -24,30 +21,53 @@ input[type="date"] {
     color: #333;
     width: 100%;
     border-radius: 0.25rem;
+    padding-left: 5px;
+    padding-right: 6px;
 }
 
-input[type="text"],
-input[type="date"] {
-    text-align: center;
+input[type="text"] {
+    text-align: left;
 }
 
 input[type="number"]:focus,
-input[type="text"]:focus,
-input[type="date"]:focus {
+input[type="text"]:focus {
     outline: none;
 }
 
-/* Formattazione contabile */
-
-.contabile-input {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font-size: 1rem;
-    padding: 0;
-    width: 100%;
-    text-align: right;
-    font-family: monospace;
-    color: #333;
-    padding-left: 1.5em;
+/* Corpo */
+body {
+    font-family: Arial, sans-serif;
 }
+
+/* Colonne dei Libri Mastri */
+#colonnaAttivi, #colonnaPassivi, #colonnaCosti, #colonnaRicavi {
+    min-height: 200px; /* Altezza minima per una migliore visibilità */
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+.table-secondary {
+    background-color: #f8f9fa;
+    border-top: 1px solid #333;
+    height: 10px;
+}
+
+/* Data divisore */
+.table-secondary td {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: left;
+    padding: 0 40px;
+    position: relative;
+}
+
+/* Linea divisore 
+.table-secondary td::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 150px; Margine data
+    right: 10px;
+    border-top: 1px solid #333;
+    transform: translateY(-50%);
+}*/
