@@ -11,6 +11,7 @@ function aggiungiRigaGiornale() {
 
     // Crea una nuova riga
     const newRow = document.createElement("tr");
+    newRow.setAttribute("style", "margin: 1rem 0; padding: 1rem;");
     newRow.innerHTML = `
         <td><input type="text" class="form-control conto-input rounded-0" placeholder="Inserisci conto o data"></td>
         <td><input type="number" class="form-control dare-input rounded-0 valuta" placeholder=" " data-id-dare=""></td>
@@ -88,7 +89,7 @@ function creaDivisoreData(data, giornaleBody, posizioneRiga) {
     const divisoreRow = document.createElement("tr");
     divisoreRow.classList.add("table-secondary");
     divisoreRow.innerHTML = `
-        <td colspan="3" class="fw-bold">${dataCompleta}</td>
+        <div class="fw-bold mt-2">${dataCompleta}</div>
     `;
 
     // Inserisce il divisore prima della riga corrente

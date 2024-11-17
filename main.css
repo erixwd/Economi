@@ -41,16 +41,16 @@ body {
     overflow-y: hidden;
 }
 
-.scrollable-col {
-    overflow-y: scroll;  /* Make the content scrollable */
-    height: 95vh; /* Set the height of the column */
-    border-right: 1px solid #bbb;
-    padding: 10px;
+tr {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-.p-2-sm {
-    background-color: transparent;
-    border: none;
+.scrollable-col {
+    overflow-y: scroll;  /* Make the content scrollable */
+    height: 100vh; /* Set the height of the column */
+    border-right: 1px solid #bbb;
+    padding: 10px;
 }
 
 /* Hide the scrollbar in WebKit browsers */
@@ -89,7 +89,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 10px;
 }
 
 .table-secondary {

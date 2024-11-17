@@ -28,7 +28,11 @@
                 const index = this.registro.mastrini[categoria].findIndex(m => m.nome === contoNome);
                 if (index !== -1) {
                     const mastrino = this.registro.mastrini[categoria][index];
-                    if (mastrino.transazioni.length === 0) {
+                    // Rimuove solo se non ci sono transazioni e non è referenziato nel libro giornale
+                    const transazioniResidue = mastrino.transazioni.length > 0;
+                    const referenzeNelGiornale = [...document.querySelectorAll(`[data-conto="${contoNome}"]`)].length > 0;
+
+                    if (!transazioniResidue && !referenzeNelGiornale) {
                         this.registro.mastrini[categoria].splice(index, 1);
                         // Rimuove il mastrino dal DOM
                         const elemento = document.querySelector(`[data-conto="${contoNome}"]`);
@@ -38,6 +42,7 @@
                 }
             }
         },
+
 
         rilevaModificaOppureCrea(contoNome, dare, avere, riga) {
             const dareId = riga.querySelector(".dare-input").dataset.id;
