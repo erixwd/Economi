@@ -37,6 +37,31 @@ input[type="text"]:focus {
 /* Corpo */
 body {
     font-family: Arial, sans-serif;
+    border-radius: 0 !important;
+    overflow-y: hidden;
+}
+
+.scrollable-col {
+    overflow-y: scroll;  /* Make the content scrollable */
+    height: 95vh; /* Set the height of the column */
+    border-right: 1px solid #bbb;
+    padding: 10px;
+}
+
+.p-2-sm {
+    background-color: transparent;
+    border: none;
+}
+
+/* Hide the scrollbar in WebKit browsers */
+.scrollable-col::-webkit-scrollbar {
+    width: 0px; /* Hides the scrollbar */
+    background: transparent; /* Ensures no background for the scrollbar */
+}
+
+/* Optional: Apply the same for Firefox */
+.scrollable-col {
+    scrollbar-width: none;  /* Hides the scrollbar in Firefox */
 }
 
 /* Colonne dei Libri Mastri */
@@ -46,13 +71,32 @@ body {
     overflow-y: auto;
 }
 
-.table-secondary {
-    background-color: #f8f9fa;
-    border-top: 1px solid #333;
-    height: 10px;
+.conto {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: move;
 }
 
-/* Data divisore */
+.mastrino-colonna {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+
+.table-secondary {
+    border-top: 1px solid #333;
+}
+
+/* Data */
 .table-secondary td {
     font-size: 1.1rem;
     font-weight: bold;

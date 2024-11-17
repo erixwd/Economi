@@ -12,13 +12,16 @@ function aggiungiRigaGiornale() {
     // Crea una nuova riga
     const newRow = document.createElement("tr");
     newRow.innerHTML = `
-        <td><input type="text" class="form-control conto-input" placeholder="Inserisci conto o data"></td>
-        <td><input type="number" class="form-control dare-input" placeholder="" data-id-dare=""></td>
-        <td><input type="number" class="form-control avere-input" placeholder="" data-id-avere=""></td>
+        <td><input type="text" class="form-control conto-input rounded-0" placeholder="Inserisci conto o data"></td>
+        <td><input type="number" class="form-control dare-input rounded-0 valuta" placeholder=" " data-id-dare=""></td>
+        <td><input type="number" class="form-control avere-input rounded-0 valuta" placeholder=" " data-id-avere=""></td>
     `;
 
     // Aggiungi la riga alla tabella
     giornaleBody.appendChild(newRow);
+
+    // Chiamare la funzione per abilitare il drag and drop
+    enableDragAndDrop();
 
     // Gestione eventi per la riga
     const contoInput = newRow.querySelector(".conto-input");
@@ -30,23 +33,31 @@ function aggiungiRigaGiornale() {
             if (event.key === "Enter") {
                 const contoNome = contoInput.value.trim();
                 if (contoNome === "") return;
-
+        
                 // Controlla se è una data
                 if (isDataValida(contoNome)) {
                     creaDivisoreData(contoNome, giornaleBody, newRow);
                     return;
                 }
-
-                // Aggiungi il conto al registro e ottieni l'ID della transazione
+        
                 const dare = parseFloat(dareInput.value) || 0;
                 const avere = parseFloat(avereInput.value) || 0;
-                const transazioneId = dataManager.aggiornaRegistroDalGiornale(contoNome, dare, avere);
-
-                // Sincronizza l'ID nella riga
-                dareInput.dataset.id = transazioneId;
-                avereInput.dataset.id = transazioneId;
-
-                // Aggiungi automaticamente una nuova riga
+        
+                // Rileva modifica o crea nuovo conto
+                dataManager.rilevaModificaOppureCrea(contoNome, dare, avere, newRow);
+        
+                // Trova la prossima riga nel libro giornale
+                const nextRow = newRow.nextElementSibling;
+                if (nextRow) {
+                    // Se esiste, sposta il focus sulla voce conto della prossima riga
+                    const nextContoInput = nextRow.querySelector(".conto-input");
+                    if (nextContoInput) {
+                        nextContoInput.focus();
+                        return;
+                    }
+                }
+        
+                // Se non esiste una riga successiva, aggiungi una nuova riga
                 aggiungiRigaGiornale();
             }
         });
@@ -91,3 +102,70 @@ function creaDivisoreData(data, giornaleBody, posizioneRiga) {
 function isDataValida(input) {
     return /^\d{1,2}\/\d{1,2}$/.test(input);
 }
+
+// Funzione per abilitare il drag and drop su ogni div di conto
+export function enableDragAndDrop() {
+    const mastrini = document.querySelectorAll('.conto');
+
+    mastrini.forEach(mastrino => {
+        mastrino.setAttribute('draggable', 'true');
+
+        // Rimuovi eventuali listener precedenti
+        mastrino.removeEventListener('dragstart', handleDragStart);
+        mastrino.removeEventListener('dragend', handleDragEnd);
+
+        // Aggiungi nuovi listener
+        mastrino.addEventListener('dragstart', handleDragStart);
+        mastrino.addEventListener('dragend', handleDragEnd);
+    });
+
+    // Gestione delle colonne che ricevono il drop
+    const mastrinoColonne = document.querySelectorAll('.mastrino-colonna');
+
+    mastrinoColonne.forEach(colonna => {
+        colonna.removeEventListener('dragover', handleDragOver);
+        colonna.removeEventListener('drop', handleDrop);
+
+        colonna.addEventListener('dragover', handleDragOver);
+        colonna.addEventListener('drop', handleDrop);
+    });
+}
+
+// Definizione esplicita delle funzioni di gestione
+function handleDragStart(event) {
+    const contoNome = event.target.dataset.conto; // Ottieni il nome del conto
+    if (!contoNome) {
+        console.error("Il conto trascinato non ha un nome valido.");
+        return;
+    }
+    event.dataTransfer.setData('conto', contoNome); // Imposta i dati da trasferire
+    console.log("Inizio drag:", contoNome);
+}
+
+function handleDragEnd(event) {
+    console.log("Drag terminato:", event.target.dataset.conto);
+}
+
+function handleDragOver(event) {
+    event.preventDefault(); // Permetti il drop
+    console.log("Drop Permesso");
+}
+
+function handleDrop(event) {
+    event.preventDefault(); // Evita comportamenti predefiniti
+    const contoNome = event.dataTransfer.getData('conto'); // Ottieni i dati del conto
+    const nuovaCategoria = event.currentTarget.dataset.categoria; // Ottieni la categoria della colonna
+
+    if (!contoNome || !nuovaCategoria) {
+        console.error("Dati mancanti nel drop:", { contoNome, nuovaCategoria });
+        return;
+    }
+
+    // Cambia la categoria del conto
+    dataManager.cambiaCategoriaConto(contoNome, nuovaCategoria);
+    console.log("Conto spostato:", { contoNome, nuovaCategoria });
+}
+
+// Startup point
+aggiungiRigaGiornale();
+document.activeElement.blur();

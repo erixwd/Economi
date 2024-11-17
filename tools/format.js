@@ -1,6 +1,6 @@
 // Formatta in valuta corrente
 window.applicaFormattazione = function() {
-    document.querySelectorAll(".contabile-input").forEach(input => {
+    document.querySelectorAll(".valuta").forEach(input => {
         // Rimuovi la formattazione per poter modificare
         input.addEventListener("focus", function() {
             input.value = input.value.replace(/[^0-9.-]+/g, "");
